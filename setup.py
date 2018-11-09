@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'supervisor-monitor=supervisor-monitor.monitor:main'
+            'supervisor-monitor=supervisor_monitor.monitor:main'
         ]
     }
 )

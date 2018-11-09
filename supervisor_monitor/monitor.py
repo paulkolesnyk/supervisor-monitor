@@ -10,8 +10,8 @@ class Monitor:
     def __init__(self, url, request_timeout, program_name):
         self.url = url
         self.request_timeout = request_timeout
-        self.program_name=program_name
-        self.pscommand = "ps -q %s -o \"size\" --no-header | awk '{$1=int($1/1024)\"MB\";}{print;}'"
+        self.program_name = program_name
+        self.pscommand = 'ps -q %s -o "size" --no-header'
         self.logger = logging.getLogger('supervisor-monitor')
 
         log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -35,10 +35,8 @@ class Monitor:
                     raise Exception('Error: pid not found!')
 
                 status = subprocess.run(self.pscommand % pid, shell=True).STDOUT
-                
                 if not status:
                     raise Exception('Error: error getting status')
-                
                 self.logger.info(status)
             except Exception as e:
                 self.logger.error(e)
