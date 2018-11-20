@@ -55,6 +55,9 @@ class Monitor:
 
     def __call__(self):
         while True:
+            # Starting with sleep to avoid unavailable service on start
+            self.logger.debug('Sleeping %s', self.sleep)
+            sleep(self.sleep)
             exc = None
             if not exc and self.memory_max_size:
                 exc = self.check_memory()
@@ -63,8 +66,6 @@ class Monitor:
             if exc:
                 self.logger.error('Restarting: reason %s', exc)
                 self.restart()
-            self.logger.debug('Sleeping %s', self.sleep)
-            sleep(self.sleep)
 
     def restart(self):
         status = subprocess.run(
