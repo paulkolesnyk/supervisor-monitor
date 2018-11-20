@@ -11,6 +11,10 @@ setup(
     url='https://github.com/kolesnykpaul/supervisor-monitor',
     keywords='',
     packages=find_packages(),
+    install_requires=[
+        'click',
+        'requests',
+    ],
     entry_points={
         'console_scripts': [
             'supervisor-monitor=supervisor_monitor.monitor:main'

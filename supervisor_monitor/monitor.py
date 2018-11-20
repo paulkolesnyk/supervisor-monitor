@@ -1,8 +1,9 @@
 import subprocess
-import click
 import logging
-import requests
 from time import sleep
+
+import click
+import requests
 
 
 class Monitor:
