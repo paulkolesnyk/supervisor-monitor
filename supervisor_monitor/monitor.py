@@ -20,16 +20,19 @@ class Monitor:
         self.logger = logging.getLogger('supervisor-monitor')
 
     def check_memory(self):
-        pid = subprocess.run(
-            ['supervisorctl', 'pid', self.program_name],
-            capture_output=True).stdout
+        pid = int(subprocess.run(
+            'supervisorctl pid {}'.format(self.program_name),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True).stdout)
         if not pid:
             raise Exception('Error getting pid of "{}" program'.format(self.program_name))
 
         status = subprocess.run(
             self.pscommand % pid,
-            shell=True,
-            capture_output=True).stdout
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True).stdout
         if not status:
             raise Exception('Error getting status of "{}" program (pid - {})'
                             .format(self.program_name, pid))
@@ -63,8 +66,10 @@ class Monitor:
 
     def restart(self):
         status = subprocess.run(
-            ['supervisorctl', 'restart', self.program_name],
-            capture_output=True)
+            'supervisorctl restart {}'.format(self.program_name),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True)
         if status.returncode == 0:
             self.logger.info('Restarted {}\n'.format(self.program_name))
         else:
